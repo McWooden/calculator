@@ -1,0 +1,23 @@
+body {
+    min-height: 100vh;
+}
+.calculator {
+    width: 350px;
+}
+.pad {
+    border-radius: 5px;
+    display: grid;
+    place-items: center;
+    margin: 5px;
+    height: 40px;
+    cursor: pointer;
+}
+.pad:hover {
+    filter: brightness(1.2);
+}
+#add {
+    height: 72px;
+}
+#equals {
+    height: 72px;
+}

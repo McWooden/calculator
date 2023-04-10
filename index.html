@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <title>Calculator</title>
+    <script src="https://kit.fontawesome.com/db3546443a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-secondary d-flex align-items-center justify-content-center">
+    <div class="container calculator text-white">
+        <div class="shadow mb-5 p-1 bg-dark rounded">
+            <div class="d-flex flex-column row p-2">
+                <div id="formula" class="text-warning text-end">Hello world</div>
+                <input value="0" id="display" class="output text-white text-end fs-4 bg-dark border-0" disabled>
+            </div>
+            <div class="row p-4 pt-2">
+                <div class="col-9">
+                    <div class="row">
+                        <div onclick="clearInput()" id="clear" class="col-8 pad shadow-sm bg-danger">AC</div>
+                        <div onclick="addOperator('/')" id="divide" class="col pad shadow-sm bg-warning text-black">/</div>
+                    </div>
+                    <div class="row">
+                        <div onclick="addNumber('7')" id="seven" class="col pad bg-dark shadow-sm text-warning">7</div>
+                        <div onclick="addNumber('8')" id="eight" class="col pad bg-dark shadow-sm text-warning">8</div>
+                        <div onclick="addNumber('9')" id="nine" class="col pad bg-dark shadow-sm text-warning">9</div>
+                    </div>
+                    <div class="row">
+                        <div onclick="addNumber('4')" id="four" class="col pad bg-dark shadow-sm text-warning">4</div>
+                        <div onclick="addNumber('5')" id="five" class="col pad bg-dark shadow-sm text-warning">5</div>
+                        <div onclick="addNumber('6')" id="six" class="col pad bg-dark shadow-sm text-warning">6</div>
+                    </div>
+                    <div class="row">
+                        <div onclick="addNumber('1')" id="one" class="col pad bg-dark shadow-sm text-warning">1</div>
+                        <div onclick="addNumber('2')" id="two" class="col pad bg-dark shadow-sm text-warning">2</div>
+                        <div onclick="addNumber('3')" id="three" class="col pad bg-dark shadow-sm text-warning">3</div>
+                    </div>
+                    <div class="row">
+                        <div onclick="addNumber('0')" id="zero" class="col-8 pad bg-dark shadow-sm text-warning">0</div>
+                        <div onclick="addDecimal()" id="decimal" class="col pad bg-dark shadow-sm text-warning">.</div>
+                    </div>
+                </div>
+                <div class="col px-1">
+                    <div onclick="addOperator('*')" id="multiply" class="row pad shadow-sm bg-warning text-black">*</div>
+                    <div onclick="addNegative()" id="subtract" class="row pad shadow-sm bg-warning text-black">-</div>
+                    <div onclick="addOperator('+')" id="add" class="row pad shadow-sm bg-warning text-black">+</div>
+                    <div onclick="calculate()" class="pad shadow-sm bg-warning text-black" id="equals">=</div>
+                </div>
+            </div>
+        </div>
+        <footer class="text-white text-center">by Huddin</footer>
+    </div>
+    <script>
+        const input = document.getElementById("display")
+        let canAddDecimal = true
+        let canAddOperator = true
+        let canAddNegative = true
+        function addNumber(num) {
+            if (input.value === "0") {
+                input.value = ""
+            }
+            input.value += num
+            canAddOperator = true
+            canAddNegative = true
+        }
+        function addOperator(operands) {
+            let lastChar = input.value.slice(-1)
+            if (isNaN(lastChar) && isNaN(input.value.charAt(input.value.length - 2))) {
+                return input.value = input.value.slice(0, -2) + operands
+            }
+            if (!canAddOperator) return
+            if (isNaN(lastChar)) {
+                return input.value = input.value.slice(0, -1) + operands
+            }
+            input.value += operands
+            canAddNegative = true
+            canAddDecimal = true
+        }
+        function addNegative() {
+            let lastChar = input.value.slice(-1)
+            if (!canAddNegative || lastChar === '-') return
+            input.value += '-'
+            canAddOperator = false
+            canAddNegative = false
+            canAddDecimal = true
+        }
+        function addDecimal() {
+            if (!canAddDecimal) return 
+            input.value += '.'
+            canAddDecimal = false
+        }
+        function clearInput() {
+            input.value = "0"
+            canAddDecimal = true
+            canAddOperator = true
+            canAddNegative = true
+            document.getElementById("formula").textContent = 'Hello world'
+        }
+        function calculate() {
+            document.getElementById("formula").textContent = input.value + '= '
+            document.getElementById("display").value = eval(input.value)
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script> -->
+</body>
+</html>
